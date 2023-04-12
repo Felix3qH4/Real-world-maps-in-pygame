@@ -40,7 +40,7 @@ class TileMap():
 
         self.add_position = None
 
-        print(self.narray)
+        #print(self.narray)
 
         
     
@@ -50,16 +50,18 @@ class TileMap():
         x = 0
         y = 0
         
-        array_x = 1
-        array_y = 1
+        array_x = 0
+        array_y = 0
 
         tile_x = self.mapconfig.x
         tile_y = self.mapconfig.y
 
         th = {}
 
-        for i in range(self.my):
-            for n in range(self.mx):
+        #for i in range(self.my):
+        for row in self.narray:
+            for t in self.narray[0]:
+            #for n in range(self.mx):
                 #self.narray[array_y, array_x] = self.create_tile(posx = x, posy = y, lx = tile_x, ly = tile_y)
                 th[(array_y, array_x)] = [x, y, tile_x, tile_y]
                 x += self.mapconfig.tilesize
@@ -303,21 +305,23 @@ class TileMap():
             if not isinstance(reftile, Tile):
                 nax, nay = 1, len(self.narray) - 2
                 reftile = self.narray[nay, nax]
+                
+                if isinstance(reftile, Tile):
+                    if reftile.position.y + self.mapconfig.tilesize < window_h:
+                        i = -1
+                        topx, topy = 0, len(self.narray)-1
 
-                if reftile.position.y + self.mapconfig.tilesize < window_h:
-                    i = -1
-                    topx, topy = 0, len(self.narray)-1
-
-                    for tile in self.narray[topy]:
-                        self.narray[topy, topx] = self.create_tile(reftile.position.x + (i * self.mapconfig.tilesize), reftile.position.y + self.mapconfig.tilesize, reftile.x + i, reftile.y + 1)
-                        i += 1
-                        topx += 1
+                        for tile in self.narray[topy]:
+                            self.narray[topy, topx] = self.create_tile(reftile.position.x + (i * self.mapconfig.tilesize), reftile.position.y + self.mapconfig.tilesize, reftile.x + i, reftile.y + 1)
+                            i += 1
+                            topx += 1
 
             if isinstance(reftile, Tile):
                 if reftile.position.y + self.mapconfig.tilesize < window_h:
-                    rot_array = numpy.rot90(self.narray, k=1, axes=(1, 0)) # rotate clockwise one time
-                    shift_array = shift(rot_array, 1, fill = 0)
-                    self.narray = numpy.rot90(shift_array, k=-1, axes=(1, 0))
+                    #rot_array = numpy.rot90(self.narray, k=1, axes=(1, 0)) # rotate clockwise one time
+                    #shift_array = shift(rot_array, 1, fill = 0)
+                    #self.narray = numpy.rot90(shift_array, k=-1, axes=(1, 0))
+                    self.narray = numpy.roll(self.narray, -1, 0)
                     i = 0
                     topx, topy = 0, len(self.narray)-1
 
@@ -336,6 +340,14 @@ class TileMap():
                     topx, topy = 0, 0
                     for i, tile in enumerate(self.narray[topy], -1):
                         self.narray[topy, topx] = self.create_tile(reftile.position.x + (i*self.mapconfig.tilesize), reftile.position.y-self.mapconfig.tilesize, reftile.x + i, reftile.y - 1)
+                        topx += 1
+            
+            if isinstance(reftile, Tile):
+                if reftile.position.y > 0:
+                    self.narray = numpy.roll(self.narray, 1, 0)
+                    topx, topy = 0, 0
+                    for i, tile in enumerate(self.narray[topy], 0):
+                        self.narray[topy, topx] = self.create_tile(reftile.position.x + (i * self.mapconfig.tilesize), reftile.position.y-self.mapconfig.tilesize, reftile.x + i, reftile.y - 1)
                         topx += 1
 
 

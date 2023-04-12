@@ -171,6 +171,5 @@ def shift_2d_array(array, n, fill=0):
 
   for i in range(array.ndim+1):
     t[i] = shift(array[i], n, fill)
-    print(i)
 
   return t
