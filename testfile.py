@@ -26,7 +26,7 @@ PRESSING = False
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            sys.exit()
+            sys.exit(0)
             pg.quit()
 
         if event.type == pg.MOUSEBUTTONDOWN:

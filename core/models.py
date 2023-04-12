@@ -16,6 +16,24 @@ class Coordinate(BaseModel):
 
 
 class MapConfig(BaseModel):
+    """
+        The configuration to allow the script to fetch tiles from the given url.
+
+        :param token [str] -- The access token for the tile service
+        :param coordinates [Coordinate] -- The starting coordinates (will be those on the top left corner of the window)
+        :param zoom [int] -- The starting zoom level
+        (:param bearing [int] -- The bearing level) NOT USED
+        :param tilesize [int] -- The size of the tiles (w=h) all tiles are of equal size
+        :param show_attribution [bool] -- Show the attribution (of the tile provider) on each tile
+        :param show_logo [bool] -- Show the logo (of the tile provider) on each tile
+        (:param x [int] -- The x position of the first tile on the world map raster) NOT USED
+        (:param y [int] -- The y position of the first tile on the world map raster) NOT USED
+        (:param array_x [int] -- The x position in the array which stores the tiles) NOT USED
+        (:param array_y [int] -- The y position in the array which stores the tiles) NOT USED
+        :param url [str] -- The url from which to get the tiles
+        :param tilesarray_size [int] -- The size of the array (the bigger = the more tiles are stored = less often new tiles have to be fetched)
+        (:param tilesarray [numpy.array] -- The array in which tiles are stored) NOT USED (array is tilemap.narray for now)
+    """
     token: str
     coordinates: Coordinate
     zoom: int = DEFAULT_ZOOM
@@ -41,6 +59,12 @@ class MapConfig(BaseModel):
 
 
 class Position(BaseModel):
+    """
+        The position of an object in the pygame window.
+
+        :param x [int] -- The x position in the window
+        :param y [int] -- The y position in the window
+    """
     x: int
     y: int
 

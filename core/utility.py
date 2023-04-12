@@ -127,6 +127,9 @@ def latlng_from_px(px: int, py: int, corner_coordinates: TileBox, tilesize: int)
 
 
 def px_from_latlng(lon: float, lat: float):
+  """
+    Returns the position of a pixel on a tile from given longitude and latitude.
+  """
   ...
 
 
